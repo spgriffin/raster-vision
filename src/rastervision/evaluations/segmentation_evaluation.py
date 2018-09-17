@@ -35,7 +35,7 @@ class SegmentationEvaluation(Evaluation):
 
         ground_truth = ground_truth_label_store.get_labels(extent)
         predictions = prediction_label_store.get_labels(extent)
-        not_dont_care = (ground_truth != 0)  # By assumption
+        not_dont_care = (ground_truth != 0) * (ground_truth != 7) # By assumption
 
         # noqa Definitions of precision, recall, and f1 taken from http://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html
         evaluation_items = []
@@ -73,7 +73,8 @@ class SegmentationEvaluation(Evaluation):
             evaluation_item = EvaluationItem(precision, recall, f1,
                                              count_error, gt_count, class_id,
                                              class_name)
-            evaluation_items.append(evaluation_item)
+            if class_id != 7:
+                evaluation_items.append(evaluation_item)
 
         self.class_to_eval_item = dict(
             zip(class_map.get_keys(), evaluation_items))
