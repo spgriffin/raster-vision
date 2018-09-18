@@ -39,8 +39,7 @@ message LabelSourceConfig {
         optional bool infer_cells = 7 [default=false];
     }
 
-    message SegmentationRasterSource {
-
+    message SemanticSegmentationRasterSource {
         // Raster source from which the label data are to be
         // drawn.
         required RasterSourceConfig src = 1;
@@ -55,7 +54,7 @@ message LabelSourceConfig {
     oneof label_source_config {
         ObjectDetectionGeoJSONSource object_detection_geojson_source = 2;
         ChipClassificationGeoJSONSource chip_classification_geojson_source = 3;
-        SegmentationRasterSource segmentation_raster_source = 4;
+        SemanticSegmentationRasterSource semantic_segmentation_raster_source = 4;
         google.protobuf.Struct custom_config = 5;
     }
 }
