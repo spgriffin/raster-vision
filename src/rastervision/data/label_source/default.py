@@ -53,7 +53,7 @@ class DefaultSemanticSegmentationRasterSourceProvider(
         DefaultLabelSourceProvider):
     @staticmethod
     def handles(task_type, uri):
-        # TODO how to handle generic types and list of uris
+        # TODO
         if task_type == rv.SEMANTIC_SEGMENTATION:
             ext = os.path.splitext(uri)[1]
             return ext.lower() in ['.tif', '.tiff']
@@ -61,6 +61,6 @@ class DefaultSemanticSegmentationRasterSourceProvider(
 
     @staticmethod
     def construct(uri):
-        return rv.RasterSourceConfig.builder(rv.SEMANTIC_SEGMENTATION_RASTER_SOURCE) \
+        return rv.RasterSourceConfig.builder(rv.SEMANTIC_SEGMENTATION_RASTER) \
                                     .with_uri(uri) \
                                     .build()

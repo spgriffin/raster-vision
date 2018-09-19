@@ -1,5 +1,5 @@
-from rastervision.evaluation import (ClassificationEvaluator,
-                                     SemanticSegmentationEvaluation)
+from rastervision.evaluation import (
+    ClassificationEvaluator, SemanticSegmentationEvaluation)
 
 
 class SemanticSegmentationEvaluator(ClassificationEvaluator):

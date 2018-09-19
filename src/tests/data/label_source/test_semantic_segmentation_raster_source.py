@@ -48,6 +48,9 @@ class MockRasterSource(RasterSource):
     def get_crs_transformer(self, window):
         return None
 
+    def get_dtype(self):
+        return np.uint8
+
 
 class TestSemanticSegmentationRasterSource(unittest.TestCase):
     def test_window_predicate_true(self):
