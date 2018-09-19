@@ -1,33 +1,30 @@
-import numpy as np
 import os
 import tempfile
-
 from typing import (Dict, List, Tuple, Union)
-from urllib.parse import urlparse
+
+import numpy as np
 
 from rastervision.core.box import Box
 from rastervision.core.class_map import ClassMap
-from rastervision.core.raster_source import RasterSource
-from rastervision.protos.raster_source_pb2 import (RasterSource as
-                                                   RasterSourceProto)
-from rastervision.utils.files import (get_local_path, make_dir, sync_dir)
-from rastervision.utils.misc import SegmentationClassTransformer
+from rastervision.data.utils import SegmentationClassTransformer
 from rastervision.data.label_source import LabelSource
+from rastervision.data.raster_source import RasterSource
 
 
 class SemanticSegmentationRasterSource(LabelSource):
     """A read-only label source for segmentation raster files.
     """
 
-    def __init__(self, source: RasterSource, class_map):
+    def __init__(self, source: RasterSource, source_class_map):
         """Constructor.
 
         Args:
              source: A source of raster label data (either an object that
                   can provide it or a path).
         """
+        # TODO handle different ways of specifying source
         self.source = source
-        self.class_transformer = SegmentationClassTransformer(class_map)
+        self.class_transformer = SegmentationClassTransformer(source_class_map)
 
     def enough_target_pixels(self, window: Box, target_count_threshold: int,
                              target_classes: List[int]) -> bool:
@@ -51,7 +48,7 @@ class SemanticSegmentationRasterSource(LabelSource):
         for class_id in target_classes:
             target_count = target_count + (labels == class_id).sum()
 
-        return target_count >= target_count_threshold:
+        return target_count >= target_count_threshold
 
     def get_labels(self, window: Union[Box, None] = None) -> np.ndarray:
         """Get labels from a window.

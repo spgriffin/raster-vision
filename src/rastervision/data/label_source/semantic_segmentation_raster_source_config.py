@@ -8,21 +8,20 @@ from rastervision.protos.label_source_pb2 import LabelSourceConfig as LabelSourc
 
 
 class SemanticSegmentationRasterSourceConfig(LabelSourceConfig):
-    def __init__(self, src, raster_class_map: Dict[str, int] = {}):
+    def __init__(self, source, source_class_map):
         super().__init__(source_type=rv.SEMANTIC_SEGMENTATION_RASTER_SOURCE)
-        self.src = src
-        self.raster_class_map = raster_class_map
+        self.source = source
+        self.source_class_map = source_class_map
 
     def to_proto(self):
         msg = super().to_proto()
         opts = LabelSourceConfigMsg.SemanticSegmentationRasterSource(
-            src=self.src.to_proto(), raster_class_map=raster_class_map)
+            source=self.source.to_proto(), class_items=self.source_class_map.to_proto())
         msg.semantic_segmentation_raster_source.CopyFrom(opts)
         return msg
 
-    def create_source(self, tmp_dir):
-        return SemanticSegmentationRasterSource(self.src,
-                                                self.raster_class_map)
+    def create_source(self, task_config, extent, crs_transformer, tmp_dir):
+        return SemanticSegmentationRasterSource(self.source, self.source_class_map)
 
     def preprocess_command(self, command_type, experiment_config, context=[]):
         if context is None:
@@ -46,8 +45,8 @@ class SemanticSegmentationRasterSourceConfigBuilder(LabelSourceConfigBuilder):
         config = {}
         if prev:
             config = {
-                'src': prev.src,
-                'raster_class_map': prev.raster_class_map
+                'source': prev.source,
+                'source_class_map': prev.source_class_map
             }
 
         super().__init__(SemanticSegmentationRasterSourceConfig, config)
@@ -56,17 +55,16 @@ class SemanticSegmentationRasterSourceConfigBuilder(LabelSourceConfigBuilder):
         b = SemanticSegmentationRasterSourceConfigBuilder()
 
         return b \
-            .with_raster_source(msg.semantic_segmentation_raster_source.src) \
-            .with_raster_class_map(
-                msg.semantic_segmentation_raster_source.raster_class_map)
+            .with_raster_source(msg.semantic_segmentation_raster_source.source) \
+            .with_source_class_map(
+                msg.semantic_segmentation_raster_source.source_class_map)
 
-    # TODO handle src being string or rastersource
-    def with_raster_source(self, src):
+    def with_raster_source(self, source):
         b = deepcopy(self)
-        b.config['src'] = src
+        b.config['source'] = source
         return b
 
-    def with_raster_class_map(self, raster_class_map):
+    def with_source_class_map(self, source_class_map):
         b = deepcopy(self)
-        b.config['raster_class_map'] = raster_class_map
+        b.config['source_class_map'] = source_class_map
         return b

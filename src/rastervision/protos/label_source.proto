@@ -2,9 +2,9 @@ syntax = "proto2";
 
 package rv.protos;
 
-import "rastervision/protos/raster_class_map.proto";
 import "rastervision/protos/raster_source.proto";
 import "google/protobuf/struct.proto";
+import "rastervision/protos/class_item.proto";
 
 message LabelSourceConfig {
     message ObjectDetectionGeoJSONSource {
@@ -44,10 +44,11 @@ message LabelSourceConfig {
         // drawn.
         required RasterSourceConfig src = 1;
 
-        // A mapping between classes in the source raster(s) and classes
-        // used internally in raster vision.  The latter type are also
-        // used in output label rasters.
-        repeated RasterClassMap raster_class_map = 3;
+        // A mapping used to translate RGB pixel values in ground truth segmentation
+        // rasters into RV class_ids. This is distinct from the class_items in TaskConfig
+        // since we may want to use a different color scheme for generating prediction
+        // rasters.
+        repeated ClassItem source_class_items = 2;
     }
 
     required string source_type = 1;

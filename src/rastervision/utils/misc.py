@@ -4,7 +4,6 @@ import numpy as np
 import imageio
 
 from PIL import Image, ImageColor
-from typing import Tuple
 
 
 def save_img(im_array, output_path):

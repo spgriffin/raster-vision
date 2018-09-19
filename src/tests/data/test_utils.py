@@ -2,14 +2,18 @@ import unittest
 
 import numpy as np
 
-from rastervision.data.label_source.utils import (
+from rastervision.data.utils import (
     SegmentationClassTransformer, color_to_triple)
+from rastervision.core.class_map import ClassMap, ClassItem
 
 
 class TestSegmentationClassTransformer(unittest.TestCase):
     def setUp(self):
-        color_to_class_id = {'red': 1, 'green': 2, 'blue': 3}
-        self.transformer = SegmentationClassTransformer(color_to_class_id)
+        self.class_map = ClassMap([
+            ClassItem(id=1, color='red'),
+            ClassItem(id=2, color='green'),
+            ClassItem(id=3, color='blue')])
+        self.transformer = SegmentationClassTransformer(self.class_map)
 
         self.rgb_image = np.zeros((1, 3, 3))
         self.rgb_image[0, 0, :] = color_to_triple('red')

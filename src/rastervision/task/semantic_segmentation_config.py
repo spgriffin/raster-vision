@@ -5,8 +5,6 @@ import rastervision as rv
 from rastervision.task import SemanticSegmentation
 from rastervision.core.class_map import (ClassMap, ClassItem)
 from rastervision.task import (TaskConfig, TaskConfigBuilder)
-from rastervision.task.utils import (construct_class_map,
-                                     classes_to_class_items)
 from rastervision.protos.task_pb2 import TaskConfig as TaskConfigMsg
 from rastervision.protos.class_item_pb2 import ClassItem as ClassItemMsg
 

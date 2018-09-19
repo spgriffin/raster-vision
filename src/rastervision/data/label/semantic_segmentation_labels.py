@@ -1,4 +1,5 @@
 from rastervision.data.label import Labels
+from rastervision.core.box import Box
 
 
 class SemanticSegmentationLabels(Labels):
@@ -20,3 +21,9 @@ class SemanticSegmentationLabels(Labels):
 
     def get_label_pairs(self):
         return self.label_pairs
+
+    def get_extent(self):
+        windows = list(map(lambda pair: pair[0], self.get_label_pairs()))
+        xmax = max(map(lambda w: w.xmax, windows))
+        ymax = max(map(lambda w: w.ymax, windows))
+        return Box(0, 0, ymax, xmax)

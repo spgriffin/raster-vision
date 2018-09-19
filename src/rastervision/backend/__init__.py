@@ -10,4 +10,4 @@ from rastervision.backend.keras_classification_config import (
     KerasClassificationConfig, KerasClassificationConfigBuilder)
 from rastervision.backend.tf_deeplab import TFDeeplab
 from rastervision.backend.tf_deeplab_config import (TFDeeplabConfig,
-                                                    TFDeeplabeConfigBuilder)
+                                                    TFDeeplabConfigBuilder)

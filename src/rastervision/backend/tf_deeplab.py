@@ -18,17 +18,17 @@ from object_detection.utils import dataset_util
 from rastervision.core.box import Box
 from rastervision.core.class_map import ClassMap
 from rastervision.backend import Backend
-from rastervision.core.scene import Scene
+from rastervision.data.scene import Scene
 from rastervision.core.training_data import TrainingData
-from rastervision.ml_backends.tf_object_detection_api import (
+from rastervision.backend.tf_object_detection import (
     write_tf_record, terminate_at_exit, TRAIN, VALIDATION)
 from rastervision.protos.deeplab import train_pb2
 from rastervision.utils.files import (download_if_needed, get_local_path,
                                       load_json_config, make_dir, start_sync,
                                       sync_dir, upload_or_copy)
-from rastervision.utils.misc import (color_to_integer, numpy_to_png,
-                                     png_to_numpy)
-from rastervision.utils.misc import save_img
+from rastervision.utils.misc import (numpy_to_png,
+                                     png_to_numpy, save_img)
+from rastervision.data.utils import color_to_integer
 
 FROZEN_INFERENCE_GRAPH = 'model'
 
